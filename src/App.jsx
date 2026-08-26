@@ -27,7 +27,6 @@ function App() {
 
   const isEditMode = isAuthed;
 
-  // THE FIX: Added Array safety and fallback to prevent NaN loops
   let maxBottom = typeof window !== 'undefined' ? window.innerHeight : 1000;
   if (Array.isArray(blocks)) {
     blocks.forEach(b => {
@@ -39,8 +38,9 @@ function App() {
   const docHeight = isEditMode ? maxBottom + 1000 : maxBottom;
 
   return (
+    // ADDED "overflow-hidden" to lock the screen width!
     <div 
-      className="w-full transition-colors duration-300 relative" 
+      className="w-full overflow-hidden transition-colors duration-300 relative" 
       style={{ backgroundColor: config.bgColor, color: config.textColor, height: `${docHeight}px` }}
       onClick={() => isEditMode && setSelectedBlock(null)}
     >
