@@ -6,7 +6,6 @@ import Gallery from './components/Gallery';
 import EditorSidebar from './components/EditorSidebar';
 import DynamicCanvas from './components/DynamicCanvas';
 
-// We lock the design to a standard 1920px wide canvas
 const DESIGN_WIDTH = 1920;
 
 function App() {
@@ -33,11 +32,9 @@ function App() {
     }
   }, []);
 
-  // SCALER LOGIC: Calculate how much to shrink the site to fit the screen
   useEffect(() => {
     const handleResize = () => {
       const currentWidth = window.innerWidth;
-      // If screen is smaller than our design, scale it down. Otherwise, leave it at 100%
       const newScale = currentWidth < DESIGN_WIDTH ? currentWidth / DESIGN_WIDTH : 1;
       setScale(newScale);
     };
@@ -47,8 +44,6 @@ function App() {
   }, []);
 
   const isEditMode = isAuthed;
-  
-  // In Edit Mode, we don't scale, so you can still edit 1:1
   const currentScale = isEditMode ? 1 : scale;
 
   let maxBottom = typeof window !== 'undefined' ? window.innerHeight : 1000;
@@ -60,7 +55,6 @@ function App() {
   }
 
   const docHeight = isEditMode ? maxBottom + 1000 : maxBottom;
-  // We must multiply the height by the scale so the bottom of the page doesn't have a massive gap
   const scaledDocHeight = docHeight * currentScale;
 
   return (
@@ -69,16 +63,22 @@ function App() {
       style={{ backgroundColor: config.bgColor, color: config.textColor, height: `${scaledDocHeight}px` }}
       onClick={() => isEditMode && setSelectedBlock(null)}
     >
-      {/* THE SCALER WRAPPER */}
-      <div style={{ width: `${DESIGN_WIDTH}px`, transform: `scale(${currentScale})`, transformOrigin: 'top left', position: 'absolute', top: 0, left: 0 }}>
-        
-        {config.showHero && <div className="relative z-10"><Hero config={config} isEditMode={isEditMode} /></div>}
-        {config.showStory && <div className="relative z-10"><Story config={config} isEditMode={isEditMode} /></div>}
-        {config.showGallery && <div className="relative z-10"><Gallery config={config} isEditMode={isEditMode} /></div>}
-
-        <DynamicCanvas isEditMode={isEditMode} />
-
-      </div>
+      {/* ONLY USE THE SCALER IN VIEW MODE */}
+      {isEditMode ? (
+        <>
+          {config.showHero && <div className="relative z-10"><Hero config={config} isEditMode={isEditMode} /></div>}
+          {config.showStory && <div className="relative z-10"><Story config={config} isEditMode={isEditMode} /></div>}
+          {config.showGallery && <div className="relative z-10"><Gallery config={config} isEditMode={isEditMode} /></div>}
+          <DynamicCanvas isEditMode={isEditMode} />
+        </>
+      ) : (
+        <div style={{ width: `${DESIGN_WIDTH}px`, transform: `scale(${currentScale})`, transformOrigin: 'top left', position: 'absolute', top: 0, left: 0 }}>
+          {config.showHero && <div className="relative z-10"><Hero config={config} isEditMode={isEditMode} /></div>}
+          {config.showStory && <div className="relative z-10"><Story config={config} isEditMode={isEditMode} /></div>}
+          {config.showGallery && <div className="relative z-10"><Gallery config={config} isEditMode={isEditMode} /></div>}
+          <DynamicCanvas isEditMode={isEditMode} />
+        </div>
+      )}
 
       {isAuthed && (
         <EditorSidebar closeEditor={() => setIsAuthed(false)} />
