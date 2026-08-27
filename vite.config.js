@@ -3,5 +3,5 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-  base: './', // THIS IS THE MAGIC LINE FOR GITHUB PAGES
+  base: '/goatedwebsite/', // EXACTLY your GitHub repo name, wrapped in slashes
 })
