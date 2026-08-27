@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Rnd } from 'react-rnd';
 import { useStore } from '../store/useStore';
-import { X, Trash2, Type, Image as ImageIcon, Eye, EyeOff, Square, AlignCenterHorizontal, AlignCenterVertical, Palette, Minimize2, Pencil, Eraser, ArrowUp, ArrowDown, ChevronsUp, ChevronsDown, Download, Upload } from 'lucide-react';
+import { X, Trash2, Type, Image as ImageIcon, Eye, EyeOff, Square, AlignCenterHorizontal, AlignCenterVertical, Palette, Minimize2, Pencil, Eraser, ArrowUp, ArrowDown, ChevronsUp, ChevronsDown, Download, Upload, Gamepad2 } from 'lucide-react';
 import ImageUploader from './ImageUploader';
 
 export default function EditorSidebar({ closeEditor }) {
@@ -72,20 +72,23 @@ export default function EditorSidebar({ closeEditor }) {
 
         <div className="flex-1 overflow-y-auto p-5 space-y-6">
           
+          {/* ADD ELEMENTS */}
           <div className="space-y-3">
             <h3 className="text-xs uppercase text-gray-400 font-semibold tracking-wider">Add Elements</h3>
             <div className="grid grid-cols-2 gap-2">
               <button onClick={() => addBlock('text')} className="flex items-center justify-center gap-2 bg-blue-600/90 hover:bg-blue-600 py-2 rounded-lg text-xs font-semibold transition-colors"><Type size={14} /> Text</button>
               <button onClick={() => addBlock('image')} className="flex items-center justify-center gap-2 bg-purple-600/90 hover:bg-purple-600 py-2 rounded-lg text-xs font-semibold transition-colors"><ImageIcon size={14} /> Image</button>
             </div>
-            <div className="grid grid-cols-2 gap-2">
-              <button onClick={() => addBlock('block')} className="flex items-center justify-center gap-2 bg-pink-600/90 hover:bg-pink-600 py-2 rounded-lg text-xs font-semibold transition-colors"><Square size={14} /> Block</button>
-              <button onClick={() => addBlock('draw')} className="flex items-center justify-center gap-2 bg-yellow-600/90 hover:bg-yellow-600 py-2 rounded-lg text-xs font-semibold transition-colors"><Pencil size={14} /> Draw</button>
+            <div className="grid grid-cols-3 gap-2">
+              <button onClick={() => addBlock('block')} className="flex items-center justify-center gap-1 bg-pink-600/90 hover:bg-pink-600 py-2 rounded-lg text-xs font-semibold transition-colors"><Square size={14} /> Block</button>
+              <button onClick={() => addBlock('draw')} className="flex items-center justify-center gap-1 bg-yellow-600/90 hover:bg-yellow-600 py-2 rounded-lg text-xs font-semibold transition-colors"><Pencil size={14} /> Draw</button>
+              <button onClick={() => addBlock('snake')} className="flex items-center justify-center gap-1 bg-green-600/90 hover:bg-green-600 py-2 rounded-lg text-xs font-semibold transition-colors"><Gamepad2 size={14} /> Snake</button>
             </div>
           </div>
 
           <hr className="border-white/10" />
 
+          {/* EDIT SELECTED */}
           {selectedBlock ? (
             <div className="space-y-3 bg-blue-500/10 p-4 rounded-xl border border-blue-500/30">
               <div className="flex justify-between items-center">
@@ -174,6 +177,7 @@ export default function EditorSidebar({ closeEditor }) {
 
           <hr className="border-white/10" />
 
+          {/* BUILT-IN SECTIONS */}
           <div className="space-y-2">
             <h3 className="text-xs uppercase text-gray-400 font-semibold tracking-wider">Built-in Sections</h3>
             <div className="flex flex-col gap-2">
@@ -185,6 +189,7 @@ export default function EditorSidebar({ closeEditor }) {
 
           <hr className="border-white/10" />
 
+          {/* GLOBAL THEME */}
           <div className="space-y-3">
             <h3 className="text-xs uppercase text-gray-400 font-semibold tracking-wider">Global Theme</h3>
             <div className="grid grid-cols-3 gap-2">
@@ -196,7 +201,7 @@ export default function EditorSidebar({ closeEditor }) {
 
           <hr className="border-white/10" />
 
-          {/* NEW: BACKUP & RESTORE BUTTONS */}
+          {/* BACKUP & RESTORE */}
           <div className="space-y-2 pb-4">
             <h3 className="text-xs uppercase text-gray-400 font-semibold tracking-wider">Backup & Restore</h3>
             <button onClick={exportState} className="w-full flex items-center justify-center gap-2 bg-emerald-600/80 hover:bg-emerald-600 py-2 rounded-lg text-xs font-semibold transition-colors">

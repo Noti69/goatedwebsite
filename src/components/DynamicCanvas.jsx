@@ -1,6 +1,7 @@
 import { Rnd } from 'react-rnd';
 import { useStore } from '../store/useStore';
 import DrawingCanvas from './DrawingCanvas';
+import SnakeGame from './SnakeGame'; // NEW
 
 export default function DynamicCanvas({ isEditMode }) {
   const blocks = useStore((state) => state.blocks);
@@ -48,7 +49,8 @@ export default function DynamicCanvas({ isEditMode }) {
             onResizeStop={(e, direction, ref, delta, position) => {
               updateBlock(block.id, { width: ref.offsetWidth, height: ref.offsetHeight, ...position });
             }}
-            cancel={isSelected && block.type === 'draw' ? ".draw-surface" : undefined}
+            // Prevent dragging when interacting with the game canvas
+            cancel=".draw-surface, .snake-canvas"
             onMouseDown={(e) => e.stopPropagation()}
             onClick={(e) => {
               e.stopPropagation();
@@ -77,6 +79,9 @@ export default function DynamicCanvas({ isEditMode }) {
               <img src={block.src} alt="Custom" style={{ width: '100%', height: '100%', objectFit: 'contain', pointerEvents: 'none' }} />
             ) : block.type === 'draw' ? (
               <DrawingCanvas block={block} isEditMode={isEditMode} isSelected={isSelected} />
+            ) : block.type === 'snake' ? (
+              // NEW: Render Snake Game
+              <SnakeGame block={block} isEditMode={isEditMode} isSelected={isSelected} />
             ) : (
               <div style={{ width: '100%', height: '100%', backgroundColor: block.bgColor, borderRadius: `${block.borderRadius}px`, pointerEvents: 'none' }} />
             )}
