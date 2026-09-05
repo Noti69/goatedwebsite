@@ -1,15 +1,17 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import defaultData from '../data.json'; // <-- THIS LOADS YOUR PICTURES!
 
 export const useStore = create(persist(
   (set, get) => ({
-    config: {
+    // If we have your data, use it! Otherwise, use a blank slate.
+    config: defaultData.config || {
       bgColor: '#ffffff', textColor: '#111111', accentColor: '#3b82f6', fontFamily: 'sans',
       title: '', subtitle: '', heroImage: '', storyTitle: '', storyText: '',
       galleryImage1: '', galleryImage2: '', galleryImage3: '',
       showHero: false, showStory: false, showGallery: false,
     },
-    blocks: [], 
+    blocks: defaultData.blocks || [], 
     selectedBlockId: null,
 
     updateConfig: (newConfig) => set((state) => ({ config: { ...state.config, ...newConfig } })),
@@ -28,8 +30,13 @@ export const useStore = create(persist(
       } else if (type === 'draw') {
         newBlock = { id, type: 'draw', x: 100, y: 300, width: 400, height: 300, brushColor: '#000000', brushSize: 4, paths: [], zIndex: maxZ + 1 };
       } else if (type === 'snake') {
+        // NEW: SNAKE GAME BLOCK
         newBlock = { id, type: 'snake', x: 150, y: 150, width: 400, height: 400, zIndex: maxZ + 1 };
+      } else if (type == 'vinyl'){
+        newBlock = { id, type: 'vinyl', x: 200, y: 200, width: 350, height: 350, audioSrc: '', imgSrc: '', zIndex: maxZ + 1};
       }
+
+      
       return { blocks: [...state.blocks, newBlock], selectedBlockId: id };
     }),
     
@@ -92,6 +99,7 @@ export const useStore = create(persist(
     
     setSelectedBlock: (id) => set({ selectedBlockId: id }),
 
+    // NEW: BACKUP & RESTORE SYSTEM
     exportState: () => {
       const state = get();
       const dataStr = JSON.stringify(state);

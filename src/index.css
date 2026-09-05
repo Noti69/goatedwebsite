@@ -55,3 +55,18 @@ html {
   scrollbar-width: thin;
   scrollbar-color: rgba(150, 150, 150, 0.4) transparent;
 }
+/* VINYL RECORD STYLES */
+.vinyl-disc {
+  background: radial-gradient(circle, #1a1a1a 30%, #0a0a0a 31%, #1a1a1a 32%, #0a0a0a 33%, #1a1a1a 34%, #0a0a0a 35%, #1a1a1a 36%, #0a0a0a 37%, #1a1a1a 38%, #0a0a0a 39%, #1a1a1a 40%, #0a0a0a 41%, #1a1a1a 42%, #0a0a0a 43%, #1a1a1a 44%, #0a0a0a 45%, #1a1a1a 46%, #0a0a0a 47%, #1a1a1a 48%, #0a0a0a 49%, #1a1a1a 50%, #0a0a0a 51%, #1a1a1a 52%, #0a0a0a 53%, #1a1a1a 54%, #0a0a0a 55%, #1a1a1a 56%, #0a0a0a 57%, #1a1a1a 58%, #0a0a0a 59%, #1a1a1a 60%, #0a0a0a 61%, #1a1a1a 62%, #0a0a0a 63%, #1a1a1a 64%, #0a0a0a 65%, #1a1a1a 66%, #0a0a0a 67%, #1a1a1a 68%, #0a0a0a 69%, #1a1a1a 70%, #0a0a0a 71%, #1a1a1a 72%, #0a0a0a 73%, #1a1a1a 74%, #0a0a0a 75%, #0a0a0a 76%, #1a1a1a 77%, #0a0a0a 78%, #1a1a1a 79%, #0a0a0a 80%, #1a1a1a 81%, #0a0a0a 82%, #1a1a1a 83%, #0a0a0a 84%, #1a1a1a 85%, #0a0a0a 86%, #1a1a1a 87%, #0a0a0a 88%, #1a1a1a 89%, #0a0a0a 90%, #1a1a1a 91%, #0a0a0a 92%, #1a1a1a 93%, #0a0a0a 94%, #1a1a1a 95%, #0a0a0a 96%, #1a1a1a 97%, #0a0a0a 98%, #1a1a1a 99%, #0a0a0a 100%);
+  border-radius: 50%;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 0 0 20px rgba(0,0,0,0.8);
+  position: relative;
+  cursor: pointer;
+}
+.vinyl-spin {
+  animation: vinyl-spin 3s linear infinite;
+}
+@keyframes vinyl-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

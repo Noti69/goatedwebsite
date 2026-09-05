@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Rnd } from 'react-rnd';
 import { useStore } from '../store/useStore';
-import { X, Trash2, Type, Image as ImageIcon, Eye, EyeOff, Square, AlignCenterHorizontal, AlignCenterVertical, Palette, Minimize2, Pencil, Eraser, ArrowUp, ArrowDown, ChevronsUp, ChevronsDown, Download, Upload, Gamepad2 } from 'lucide-react';
+import { X, Trash2, Type, Image as ImageIcon, Eye, EyeOff, Square, AlignCenterHorizontal, AlignCenterVertical, Palette, Minimize2, Pencil, Eraser, ArrowUp, ArrowDown, ChevronsUp, ChevronsDown, Download, Upload, Gamepad2, Disc } from 'lucide-react';
 import ImageUploader from './ImageUploader';
 
 export default function EditorSidebar({ closeEditor }) {
@@ -84,6 +84,7 @@ export default function EditorSidebar({ closeEditor }) {
               <button onClick={() => addBlock('draw')} className="flex items-center justify-center gap-1 bg-yellow-600/90 hover:bg-yellow-600 py-2 rounded-lg text-xs font-semibold transition-colors"><Pencil size={14} /> Draw</button>
               <button onClick={() => addBlock('snake')} className="flex items-center justify-center gap-1 bg-green-600/90 hover:bg-green-600 py-2 rounded-lg text-xs font-semibold transition-colors"><Gamepad2 size={14} /> Snake</button>
             </div>
+            <button onClick={() => addBlock('vinyl')} className="w-full flex items-center justify-center gap-2 bg-indigo-600/90 hover:bg-indigo-600 py-2 rounded-lg text-xs font-semibold transition-colors"><Disc size={14} /> Vinyl Player</button>
           </div>
 
           <hr className="border-white/10" />
@@ -139,6 +140,52 @@ export default function EditorSidebar({ closeEditor }) {
                 </>
               ) : selectedBlock.type === 'image' ? (
                 <ImageUploader label="Selected Image" currentImage={selectedBlock.src} onUpload={(src, width, height) => updateBlock(selectedBlock.id, { src, width, height })} />
+              ) : selectedBlock.type === 'vinyl' ? (
+                <div className="space-y-3">
+                  <div>
+                    <label className="block text-[10px] mb-1 text-gray-400">Vinyl Image Path</label>
+                    <input 
+                      type="text" 
+                      value={selectedBlock.imgSrc} 
+                      onChange={(e) => updateBlock(selectedBlock.id, { imgSrc: e.target.value })} 
+                      placeholder="media/vinyl-cover.jpg"
+                      className="w-full bg-black/30 px-3 py-2 rounded text-xs border border-white/10 outline-none"
+                    />
+                    <p className="text-[10px] text-gray-500 mt-1">Path to image in your /public/media folder.</p>
+                  </div>
+                  <div>
+                    <label className="block text-[10px] mb-1 text-gray-400">Audio File Path (MP3)</label>
+                    <input 
+                      type="text" 
+                      value={selectedBlock.audioSrc} 
+                      onChange={(e) => updateBlock(selectedBlock.id, { audioSrc: e.target.value })} 
+                      placeholder="media/our-song.mp3"
+                      className="w-full bg-black/30 px-3 py-2 rounded text-xs border border-white/10 outline-none"
+                    />
+                    <p className="text-[10px] text-gray-500 mt-1">Path to MP3 in your /public/media folder.</p>
+                  </div>
+                </div>
+              ) : selectedBlock.type === 'draw' ? (
+                <div className="space-y-3">
+                  <div>
+                    <label className="block text-[10px] mb-1 text-gray-400">Vinyl Image (Center Label)</label>
+                    <ImageUploader label="Upload Image" currentImage={selectedBlock.imgSrc} onUpload={(val) => updateBlock(selectedBlock.id, { imgSrc: val })} />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] mb-1 text-gray-400">Audio File (MP3)</label>
+                    <label className="w-full flex items-center justify-center gap-2 bg-sky-600/80 hover:bg-sky-600 py-2 rounded-lg text-xs font-semibold transition-colors cursor-pointer">
+                      <Upload size={14} /> Upload MP3
+                      <input type="file" accept="audio/mpeg, audio/mp3" onChange={(e) => {
+                        const file = e.target.files[0];
+                        if (!file) return;
+                        const reader = new FileReader();
+                        reader.onload = (ev) => updateBlock(selectedBlock.id, { audioSrc: ev.target.result });
+                        reader.readAsDataURL(file);
+                      }} className="hidden" />
+                    </label>
+                    {selectedBlock.audioSrc && <p className="text-[10px] text-green-400 text-center mt-1">MP3 Loaded!</p>}
+                  </div>
+                </div>
               ) : selectedBlock.type === 'draw' ? (
                 <div className="space-y-3">
                   <div className="grid grid-cols-2 gap-2">
