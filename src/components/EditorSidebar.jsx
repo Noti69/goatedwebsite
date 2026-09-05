@@ -3,6 +3,7 @@ import { Rnd } from 'react-rnd';
 import { useStore } from '../store/useStore';
 import { X, Trash2, Type, Image as ImageIcon, Eye, EyeOff, Square, AlignCenterHorizontal, AlignCenterVertical, Palette, Minimize2, Pencil, Eraser, ArrowUp, ArrowDown, ChevronsUp, ChevronsDown, Download, Upload, Gamepad2, Disc } from 'lucide-react';
 import ImageUploader from './ImageUploader';
+import { StickyNote } from 'lucide-react';
 
 export default function EditorSidebar({ closeEditor }) {
   const config = useStore((state) => state.config);
@@ -84,7 +85,11 @@ export default function EditorSidebar({ closeEditor }) {
               <button onClick={() => addBlock('draw')} className="flex items-center justify-center gap-1 bg-yellow-600/90 hover:bg-yellow-600 py-2 rounded-lg text-xs font-semibold transition-colors"><Pencil size={14} /> Draw</button>
               <button onClick={() => addBlock('snake')} className="flex items-center justify-center gap-1 bg-green-600/90 hover:bg-green-600 py-2 rounded-lg text-xs font-semibold transition-colors"><Gamepad2 size={14} /> Snake</button>
             </div>
-            <button onClick={() => addBlock('vinyl')} className="w-full flex items-center justify-center gap-2 bg-indigo-600/90 hover:bg-indigo-600 py-2 rounded-lg text-xs font-semibold transition-colors"><Disc size={14} /> Vinyl Player</button>
+            <div className="grid grid-cols-2 gap-2">
+              <button onClick={() => addBlock('vinyl')} className="flex items-center justify-center gap-1 bg-indigo-600/90 hover:bg-indigo-600 py-2 rounded-lg text-xs font-semibold transition-colors"><Disc size={14} /> Vinyl</button>
+              {/* NEW: SHARED NOTE BUTTON */}
+              <button onClick={() => addBlock('note')} className="flex items-center justify-center gap-1 bg-amber-400/90 hover:bg-amber-400 text-black py-2 rounded-lg text-xs font-semibold transition-colors"><StickyNote size={14} /> Shared Note</button>
+            </div>
           </div>
 
           <hr className="border-white/10" />

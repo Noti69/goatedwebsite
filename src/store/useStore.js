@@ -34,6 +34,9 @@ export const useStore = create(persist(
         newBlock = { id, type: 'snake', x: 150, y: 150, width: 400, height: 400, zIndex: maxZ + 1 };
       } else if (type == 'vinyl'){
         newBlock = { id, type: 'vinyl', x: 200, y: 200, width: 350, height: 350, audioSrc: '', imgSrc: '', zIndex: maxZ + 1};
+      } else if (type === 'note') {
+        // NEW: SHARED STICKY NOTE
+        newBlock = { id, type: 'note', x: 200, y: 200, width: 300, height: 250, noteId: 'our-little-secrets', zIndex: maxZ + 1 };
       }
 
       

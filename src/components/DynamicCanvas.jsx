@@ -2,7 +2,8 @@ import { Rnd } from 'react-rnd';
 import { useStore } from '../store/useStore';
 import DrawingCanvas from './DrawingCanvas';
 import SnakeGame from './SnakeGame';
-import VinylPlayer from './VinylPlayer'; // NEW
+import VinylPlayer from './VinylPlayer';
+import SharedNote from './SharedNote'; // NEW
 
 export default function DynamicCanvas({ isEditMode }) {
   const blocks = useStore((state) => state.blocks);
@@ -50,7 +51,8 @@ export default function DynamicCanvas({ isEditMode }) {
             onResizeStop={(e, direction, ref, delta, position) => {
               updateBlock(block.id, { width: ref.offsetWidth, height: ref.offsetHeight, ...position });
             }}
-            cancel=".draw-surface, .snake-canvas, .vinyl-play-btn"
+            // NEW: Added .shared-note-textarea to cancel list so you can type without dragging
+            cancel=".draw-surface, .snake-canvas, .vinyl-play-btn, .shared-note-textarea"
             onMouseDown={(e) => e.stopPropagation()}
             onClick={(e) => {
               e.stopPropagation();
@@ -82,8 +84,10 @@ export default function DynamicCanvas({ isEditMode }) {
             ) : block.type === 'snake' ? (
               <SnakeGame block={block} isEditMode={isEditMode} isSelected={isSelected} />
             ) : block.type === 'vinyl' ? (
-              // NEW: Render Vinyl Player
               <VinylPlayer block={block} isEditMode={isEditMode} isSelected={isSelected} />
+            ) : block.type === 'note' ? (
+              // NEW: Render Shared Note
+              <SharedNote block={block} isEditMode={isEditMode} isSelected={isSelected} />
             ) : (
               <div style={{ width: '100%', height: '100%', backgroundColor: block.bgColor, borderRadius: `${block.borderRadius}px`, pointerEvents: 'none' }} />
             )}
